@@ -1397,6 +1397,6 @@ tr {
 @media screen and (max-width: 340px)  {
   .circle-text {
     margin-top:0.25rem;
-    font-size:0.65rem;
+    font-size:0.725rem;
   }
 }
