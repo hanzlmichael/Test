@@ -1,0 +1,116 @@
+<%- include('partials/head'); %>
+<%- include('partials/navbar'); %>
+
+<div class="wrapper">
+  <div class="wrap">
+    <% for (let i = 0; i < 14; i++) { %> <!--  test.test.questions.length -->
+      <div class="<%= i === 0 ? 'question active done' : 'question' %>">
+        <%= i + 1 %>
+      </div>
+    <% } %>
+    </div>
+    <div class="options">
+      <% for (let i = 0; i < 4; i++) { %> <!--  test.test.questions.length -->
+        <button class="btn">
+          Option
+        </button>
+      <% } %>
+    </div>
+    <div class="canvas-wrap">
+      <canvas></canvas>
+    </div>
+</div>
+
+<style>
+body{
+  background: rgb(236,236,236);
+}
+.wrapper {
+  height: 100%;
+  width: 100%;
+  max-width: 70rem;
+  padding: 0 1rem 1rem 1rem;
+  background: rgb(236,236,236);
+  border:1px solid red;
+}
+.canvas-wrap {
+  border:1px solid red;
+  display:flex;
+  justify-content: center;
+  max-width: 100%;
+}
+.options {
+display:grid;
+
+margin-bottom: 1rem;
+grid-template-columns: repeat(auto-fit, minmax(10rem,1fr));
+gap:0.5rem;
+border:1px solid red;
+} 
+.btn {
+outline:none;
+border:none;
+font-weight:600;
+font-size:14px;
+letter-spacing:1.25px;
+text-transform:uppercase;
+padding:0.5rem 1rem;
+border-radius:0.5rem;
+display:flex;
+align-items:center;
+height:fit-content;
+background-color: rgb(255, 255, 255);
+color:#464646;
+justify-content:center;
+cursor:pointer;
+}
+canvas {
+  background-color: white;
+  max-height: 100%;
+  min-height: 30rem;
+  width:100%;
+  max-width:40rem;
+  border-radius:0.5rem;
+}
+.question {
+  background-color:rgb(255, 255, 255);
+  width:3rem;
+  height:3rem;
+  border-radius:0.5rem;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor:pointer;
+}
+
+.wrap {
+  display:flex;
+  gap:0.5rem;
+  padding:1rem 0;
+}
+.done {
+  background-color: #51cdd38f;
+}
+.active {
+  outline: 2px solid #ff8318;
+}
+
+.question:hover {
+  outline: 2px solid #ff8318;
+}
+</style>
+
+<script>
+  let allQuestion = document.querySelectorAll('.question')
+  allQuestion.forEach(el => el.addEventListener('click', selectQuestion))
+
+  function selectQuestion(e) {
+    document.querySelector('.question.active').classList.remove('active')
+    e.target.classList.add('active')
+  }
+</script>
+
+<%- include('partials/footer'); %>

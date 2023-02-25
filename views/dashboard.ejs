@@ -1,0 +1,110 @@
+<%- include('partials/head'); %>
+<%- include('partials/navbar'); %>
+
+
+<%
+  function parseTimeFromMongoose(timestamp) {
+    const convertedTime = new Date(timestamp)    
+    let convert = convertedTime.toLocaleString('en-GB')
+    convert = convert.replace(/\//g, '. ');
+    return convert;
+  }  
+%>
+
+<script>
+  async function deleteTest(id) {
+    try {
+      const res = await fetch(`/tests/${id.value}`, {
+        method: 'DELETE', 
+        headers: {'Content-Type': 'application/json'}
+      })
+      if (res) {
+        location.assign('/tests');
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  function editTest(id) {
+    location.assign(`/tests/${id.value}`);
+  }
+
+  function url() {
+    return 'URL ADRESS'
+  }
+
+</script>
+
+<div class="test-wrap">
+  <a id="add-new-test" href="tests/new">
+    <span class="material-symbols-outlined">add</span>
+    <span>nový test</span>
+  </a>
+
+  <% for (let i = 0; i < tests.length; i++) { %>
+    <div class="test">
+      <span class="title"><%= tests[i].title %></span>
+      <div class="tooltip"><%= tests[i].title %></div>
+      <div class="date-created-wrap">
+        <span>Datum vytvoření:</span>
+        <span class="date-created"><%= parseTimeFromMongoose(tests[i].createdAt) %></span>
+      </div>
+      <div class="date-edited-wrap">
+        <span>Poslední úprava:</span>
+        <span class="date-created"><%= parseTimeFromMongoose(tests[i].updatedAt) %></span>
+      </div>
+      <div class="copy-link-wrap">
+        <div>link pro sdílení testu</div>
+        <div class="url-wrap">
+           <input readonly value="<%=tests[i]._id %>"></input>
+           <button class="material-symbols-outlined copy-text">content_copy</button>
+        </div> 
+        <div class="message">Link zkopírován!</div>
+      </div>
+        <div class="manipulate-btn-wrap">
+          <button value="<%= tests[i]._id %>" onclick="editTest(this)">Upravit</button>
+          <button class="delete-btn" value="<%= tests[i]._id %>" onclick="deleteTest(this)">Smazat</button>
+        </div>
+        <button class="results-btn">Výsledky</button>
+    </div>     
+  <%};%>  
+</div>
+
+  
+<%- include('partials/footer'); %>
+<script>
+  console.log('yes')
+  debugger;
+  let allUrlInputs = document.querySelectorAll('.url-wrap input')
+  console.log(allUrlInputs)
+  allUrlInputs.forEach(el => {
+    el.value = window.location.href + '/' + el.value;
+  })
+
+  let copyBtns = document.querySelectorAll('.copy-text');
+  let copyInput = document.querySelector('.copy-link-wrap input');
+
+  copyBtns.forEach(el => el.addEventListener('click', selectTextAndCopy));
+
+  function selectTextAndCopy(e) {
+    e.target.previousElementSibling.select()
+    e.target.previousElementSibling.setSelectionRange(0, 99999);
+    navigator.clipboard.writeText(e.target.previousElementSibling.value);
+  }
+
+  document.querySelectorAll('.copy-text').forEach(el => {
+    el.addEventListener('click', showTip)
+  })
+
+  function showTip(e) {
+    let parent = e.target.parentNode;
+    let messageElement = parent.nextElementSibling;
+    messageElement.style.display = 'block';
+    setTimeout(() => {
+      messageElement.style.display= 'none';
+    },600)
+  }
+</script>
+

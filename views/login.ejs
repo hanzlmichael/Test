@@ -1,0 +1,51 @@
+<%- include('partials/head'); %>
+<%- include('partials/navbar'); %>
+
+<div class="layout-login">
+  <h2>Přihlášení</h2>
+  <form action="/login" method="POST">
+    <input type="text" placeholder="Email" name="email">
+    <div class="email error"></div>
+    <input type="password" placeholder="Heslo" name="password">
+    <div class="password error"></div>
+    <a href="/new-password" class="forgotten-password">Zapomenuté heslo</a>
+    <button type="submit">Přihlásit se</button>
+    <div class="no-account">Nemáte účet? <a href="/register">Založit účet</a></div> 
+  </form>
+</div>
+
+<%- include('partials/footer'); %>
+
+<script>
+  const form = document.querySelector('form');
+  const emailError = document.querySelector('.email.error');
+  const passwordError = document.querySelector('.password.error');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // reset errors
+    emailError.textContent = '';
+    passwordError.textContent = '';
+    // get values
+    const email = form.email.value;
+    const password = form.password.value;
+    try {
+      const res = await fetch('/login', { 
+        method: 'POST', 
+        body: JSON.stringify({ email, password }),
+        headers: {'Content-Type': 'application/json'}
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errors) {
+        emailError.textContent = data.errors.email;
+        passwordError.textContent = data.errors.password;
+      }
+      if (data.user) {
+        location.assign('/tests');
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+  });
+</script>
