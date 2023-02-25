@@ -1376,7 +1376,7 @@ tr {
     margin-top: 3.5rem;
   }
   .add-new-test-wrap {
-    padding: 0 0 1rem 0;
+    padding: 0 0.25rem 1rem 0.25rem;
   }
   .wrap-heading {
     padding-left: 0;
