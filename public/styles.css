@@ -1376,11 +1376,14 @@ tr {
     margin-top: 3.5rem;
   }
   .add-new-test-wrap {
-    padding: 0 0.25rem 1rem 0.25rem;
+    padding: 0 0.5rem 1rem 0.5rem;
   }
   .wrap-heading {
-    padding-left: 0;
+    padding-left: 0.25rem;
     font-size: 1rem;
+  }
+  .heading-xl {
+    padding-left: 0.5rem;
   }
 }
 
