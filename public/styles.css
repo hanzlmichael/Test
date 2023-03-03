@@ -172,11 +172,11 @@ main {
   font-size:0.8rem;
 }
 h1 {
-  letter-spacing: 0.25rem;
+  letter-spacing: 0.2rem;
   text-align: center;
   color: #2a2a2a;
   align-self: center;
-  font-weight: 300;
+  font-weight: 500;
   font-size: 2.75rem;
 }
 body,html {
@@ -188,11 +188,33 @@ body {
   width:100vw; */
   /* background-color: #ececec; */
   background: rgb(236,236,236);
-background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 0%, rgba(175,190,193,1) 100%);
+  background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 0%, rgb(219 219 219) 100%);
+position: relative;
+  background-image: url("https://www.linkpicture.com/q/DALLmE-2023-01-07-17.41.14-minimalistic-background-for-website-about-creating-blank-maps.png");
+  background-size: cover;
+  background-position: center center;
 }
-.landing-page {
-  display:grid;
+/* body::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  background-color: rgb(255 255 255);
+  z-index: -99;
+} */
 
+.landing-page {
+  box-shadow: rgb(17 17 26 / 10%) 0px 8px 24px, rgb(17 17 26 / 10%) 0px 16px 56px, rgb(17 17 26 / 10%) 0px 24px 80px;
+    position: relative;
+    display: grid;
+    background-color: #f3f3f396;
+    padding: 1rem;
+    top: -2rem;
+    border-radius: 0.5rem;
 }
 .landing-page a {
   text-decoration: none;
@@ -223,6 +245,7 @@ background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 
 }
 
 .test-wrap {
+  box-shadow: rgb(17 17 26 / 10%) 0px 8px 24px, rgb(17 17 26 / 10%) 0px 16px 56px, rgb(17 17 26 / 10%) 0px 24px 80px;
   height: 100%;
   width: 100%;
   max-width: 70rem;
@@ -270,6 +293,16 @@ background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 
     background-color: white;
     display:grid;
     grid-template-rows: auto 1fr;
+    box-shadow: rgb(17 17 26 / 10%) 0px 8px 24px, rgb(17 17 26 / 10%) 0px 16px 56px, rgb(17 17 26 / 10%) 0px 24px 80px;
+}
+
+.noTestWrap {
+  padding: 1rem;
+  background-color: rgb(242 242 242);
+  color: rgb(145 145 145);
+    font-size: 1rem;
+    grid-column: span 2;
+    border-radius:0.5rem;
 }
 
 /* PAGE 1 */
@@ -544,14 +577,14 @@ background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 
   padding: 0.5rem;
   cursor:pointer;
   height: 2.5625rem;
-  color: rgb(215 81 81);
+  color: #f53c3c;
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.075rem;
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
-  background-color: #ffe2e2;
+  background-color: rgba(244, 198, 198,0.8);
 }
 #delete-question:hover {
   /* background-color: rgb(220,220,220); */
@@ -612,14 +645,15 @@ background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 
 .canvas-wrap {  
   width:100%;
   position: relative;
+  box-shadow: rgb(17 17 26 / 10%) 0px 8px 24px, rgb(17 17 26 / 10%) 0px 16px 56px, rgb(17 17 26 / 10%) 0px 24px 80px;
 }
 #canvas {
-  border-radius: 0.75rem;
   background-color: rgb(245,245,245);
 }
 .upper-canvas {
-  border: 8px solid rgb(245 245 245);
+  /* border: 8px solid rgb(245 245 245); */
     border-radius: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
 .question-setting-wrap {
@@ -642,8 +676,8 @@ background: radial-gradient(circle, rgba(236,236,236,1) 0%, rgba(255,255,255,1) 
   gap:0.25rem;
   position:absolute;
   z-index: 9;
-  top:0.75rem;
-  left:0.75rem;
+  top:0.5rem;
+  left:0.5rem;
 }
 #add-button-label {
   width:1.75rem;
@@ -694,8 +728,8 @@ input[type="color"]:hover {
   position: absolute;
   background-color: rgb(222,222,222);
   fill:rgb(65,65,65);
-  top:0.75rem;
-  right:0.75rem;
+  top:0.5rem;
+  right:0.5rem;
   border-radius: 0.25rem;
 }
 .add-button-icon-wrap #resize-icon:hover #resize-icon-bg, .resize-icon-all:hover{
@@ -732,6 +766,7 @@ input[type="color"]:hover {
 /* BODY */
 .points {
   background: rgb(235,235,235);
+  max-width: 12rem;
   width:75%;
   padding:0.3rem 0.6rem;
   border-radius:0.5rem;
@@ -877,6 +912,7 @@ summary {
 }
 details[open] svg {
   transform: rotate(180deg);
+  transform: rotate(180deg) scale(0.78);
 }
 details[open] summary {
   border-radius:0.5rem 0.5rem 0 0;
@@ -886,6 +922,7 @@ details[open] svg {
 }
 details svg {
   transition: transform 0.5s;
+  transform: scale(0.78) scaleX(0.95);
 }
 summary:hover {
   background-color: rgb(232,232,232);
@@ -1159,7 +1196,7 @@ tr {
   font-size:0.8rem;
   text-transform:uppercase;
   letter-spacing:0.05rem;
-  font-weight:500;
+  font-weight:600;
   padding-bottom:0.25rem;
   padding-left:0.25rem;
   border-bottom: 1px solid rgb(210,210,210);
@@ -1399,4 +1436,16 @@ tr {
     margin-top:0.25rem;
     font-size:0.725rem;
   }
+}
+
+.df {
+  display:flex !important;
+}
+
+
+.wrapper h2 {
+  padding: 2rem 0.5rem 1rem 0.5rem;
+  font-size: 2rem;
+  border-bottom: 2px solid #dededed9;
+  margin-bottom: 1rem;
 }

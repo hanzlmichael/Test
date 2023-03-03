@@ -30,11 +30,6 @@
   function editTest(id) {
     location.assign(`/tests/${id.value}`);
   }
-
-  function url() {
-    return 'URL ADRESS'
-  }
-
 </script>
 
 <div class="test-wrap">
@@ -42,6 +37,10 @@
     <span class="material-symbols-outlined">add</span>
     <span>nový test</span>
   </a>
+
+  <% if (tests.length == 0) { %>
+    <div class="noTestWrap">Nemáte žádné vytvořené testy...</div>
+  <% } %>
 
   <% for (let i = 0; i < tests.length; i++) { %>
     <div class="test">

@@ -47,6 +47,9 @@ const checkUser = (req, res, next) => {
 const checkAuthor = async (req, res, next) => {
   console.log('dostal se sem')
   let testId = req.url.substring(1, req.url.length)
+  if (testId.length > 24) {
+    testId = testId.slice(0,24)
+  }
 
   // check if user has a valid token
   console.log('dostal se sem1')

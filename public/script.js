@@ -16,6 +16,29 @@ let wrap = document.querySelector('.canvas-wrap')
 export var canvas = new fabric.Canvas('canvas');
 canvas.setDimensions({width: "100%", height:"400px"}, {cssOnly:true})
 
+/* test */
+import { getTestById } from './components/questions.js'
+document.querySelector('#testbtn').addEventListener('click', getTestById)
+
+if (testBSON(window.location.href || testNewPath())) {
+  debugger;
+  document.addEventListener('DOMContentLoaded', getTestById)
+}
+
+function testNewPath() {
+  let url = window.location.href;
+  let lastPart = url.split('/').pop();
+  if (lastPart == 'new') return true;
+  return false;
+}
+function testBSON(inputString) {
+  const lastPart = inputString.split('/').pop();
+  if (/^[0-9a-fA-F]{24}$/.test(lastPart)) {
+    return true
+  }
+  return false  
+}
+
 
 initTag();
 initQuestionsBar();
@@ -119,6 +142,7 @@ function handleChangeSelectMapText() {
 }
 
 function handleDisplayMap(e) {
+  debugger;
   if (selectMap.selectedIndex == 0) {
     canvas.clear()
     return
@@ -127,13 +151,31 @@ function handleDisplayMap(e) {
   let mapElem = mapWrap.children[indexCorrection] // Vyberu správnou mapu k vybranému option
   let mapImage = mapElem.querySelector('img')
   let imageData = mapImage.getAttribute('src')
-
-
   resizeMapToCanvas(imageData)
 }
+let isWidthCalculatedFlag = false;
 
 export function resizeMapToCanvas(data) {
-  let width = wrap.getBoundingClientRect().width;
+  debugger;
+  console.log('resizemapto canvas')
+  let width;
+  let url = window.location.href;
+  const lastString = url.split("/").pop();
+
+
+  if (!isWidthCalculatedFlag) {
+    let page = document.querySelector('.creating-questions-page');
+    page.style.display = 'block'
+    width = wrap.getBoundingClientRect().width;
+    page.style.display = 'none'
+    isWidthCalculatedFlag = true;
+    if (lastString == 'new') page.style.display = 'block'
+  } else {
+    width = wrap.getBoundingClientRect().width;
+  }
+ 
+
+
   canvas.clear()
   fabric.Image.fromURL(data, function(img) {
     img.scaleToWidth(width,true);

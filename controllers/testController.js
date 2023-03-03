@@ -13,13 +13,14 @@ module.exports.getTests = async (req, res) => {
       console.log('teacherRef ', teacherRef)
       let tests = await Test.find({ teacherRef: mongoose.Types.ObjectId(`${teacherRef}`)}).sort({ createdAt: -1});
       res.render('dashboard', { tests })
+      
     }
   });
 
 }
 
 module.exports.postTest = async (req, res) => {
-  const { title, categories, test } = req.body;
+  const { title, categories, test, marksBoundaries, timeLimit } = req.body;
 
   const token = req.cookies.jwt;
   let teacherRef;
@@ -31,7 +32,7 @@ module.exports.postTest = async (req, res) => {
     } else {
       let teacherRef = decodedToken.id;
       try {
-        const createdTest = await Test.create({ teacherRef, title, categories, test})
+        const createdTest = await Test.create({ teacherRef, title, categories, test, marksBoundaries, timeLimit})
         if (createdTest) {
           console.log('createdTest: ', createdTest)
           res.redirect('/tests');
@@ -83,9 +84,27 @@ module.exports.getTestById = async (req, res) => {
   }
 }
 
+module.exports.getTestByIdAndEdit = async (req, res) => {
+  console.log("getTestByIdAndEdit");
+  let testId = req.params.testId;
+  testId.split("/").pop();
+
+  Test.findById(testId)
+    .select("title test")
+    .exec((err, result) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      res.json(result);
+    });
+};
+
+
+
 module.exports.updateTestById = async (req, res) => {
   console.log('UPDATE TEST BACKEND')
-  const { title, categories, test } = req.body;
+  const { title, categories, test, timeLimit, marksBoundaries } = req.body;
   const testId = req.params.testId;
   
   console.log('testId', testId)
@@ -105,7 +124,7 @@ module.exports.updateTestById = async (req, res) => {
       try {
         console.log('err3')
         console.log('testId', testId)
-        const updatedTest = await Test.findByIdAndUpdate(testId, {title, categories, test }, {
+        const updatedTest = await Test.findByIdAndUpdate(testId, {title, categories, test, timeLimit, marksBoundaries }, {
           new: true, // returns the updated test instead of the original one
           runValidators: true, // validates the updated test against the schema
         });

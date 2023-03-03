@@ -30,7 +30,9 @@ const testSchema = new mongoose.Schema({
   },
   categories: [],
   maps: [],
-  test: {}
+  test: {},
+  marksBoundaries: [],
+  timeLimit: String
 }, { timestamps: true });
 
 const Test = mongoose.model('test', testSchema);

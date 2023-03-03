@@ -3,8 +3,12 @@
     <div class="black-line"></div>
     <div class="navbar">
       <div class="navbar-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 96 960 960" width="32"><path fill="white" d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg>
-        <a class="logo" href="/">blankmaps</a>
+        <svg xmlns="http://www.w3.org/2000/svg" id="showMenuBtn" height="32" viewBox="0 96 960 960" width="32"><path fill="white" d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg>
+        <% if (user) { %>
+          <a class="logo" href="/tests">blankmaps</a>
+        <% } else { %>
+          <a class="logo" href="/">blankmaps</a>
+        <% } %>  
       </div>      
 
       <% if (user) { %>

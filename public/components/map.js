@@ -5,11 +5,15 @@ export function initMapUploadingFunctionality() {
   localStorage.setItem('maps', JSON.stringify(maps));
   observe();
   document.querySelector('.maps-wrap').addEventListener('input', handleMapChangeName);
+  mapCount = test.maps.length;
 }
 
 // select element
 let selectMap = document.querySelector('#select-map');
-let mapCount = 0;
+let mapsWrap = document.querySelector('.maps-wrap');
+/* let mapCount = mapsWrap.children.length > 0 ? Number(mapsWrap.children[mapsWrap.children.length-1].id.slice(3)) + 1 : 0; */ // chyba
+let mapCount;
+console.log('mapCount: ', mapCount);
 let maps = [];
 
 // sledovane zmeny
@@ -29,7 +33,15 @@ function observe() {
         if (mutation.addedNodes[0]) {          
           console.log(mutation.addedNodes[0].querySelector('input').value)
           debugger;
-          mutation.addedNodes[0].id = `map${mapCount++}`;
+          /* let tt = mapsWrap.children[mapsWrap.children.length - 2]
+          let ttt = Number(mapsWrap.children[mapsWrap.children.length - 2].id.slice(3)) + 1 */
+
+          console.log(mapsWrap.children[mapsWrap.children.length - 1])
+          console.log(mapsWrap.children[mapsWrap.children.length - 1].id)
+          console.log(mapsWrap.children[mapsWrap.children.length - 1].id.slice(3))
+          console.log(Number(mapsWrap.children[mapsWrap.children.length - 1].id.slice(3)) + 1)
+
+          mutation.addedNodes[0].id = mapsWrap.children.length > 1 ? `map${Number(mapsWrap.children[mapsWrap.children.length - 2].id.slice(3)) + 1}` : `map${mapCount++}`;
           let mapId = mutation.addedNodes[0].id;
           //console.log(mapId)
           //let element = mutation.addedNodes[0].querySelector('img')
@@ -82,6 +94,7 @@ function observe() {
 }
 
 function handleMapChangeName(e) {
+  
   if (e.target.matches('.maps-wrap .map-wrap input')) {
     let elem = e.target.closest('.map-wrap');
     let index = findIndex(elem);

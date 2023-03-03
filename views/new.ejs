@@ -1,148 +1,166 @@
 <%- include('partials/head'); %>
-<%- include('partials/navbar'); %>
-  
-<% if (user  && locals.author) { %>
+  <%- include('partials/navbar'); %>
 
-<div class="add-new-test-wrap">  
-  <div>
-    <div class="progress-nav">
-      <svg id="previous-page" xmlns="http://www.w3.org/2000/svg" height="38px" viewBox="0 0 24 24" width="38px"
-        fill="rgba(55, 55, 55, 0.768)">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-      </svg>
-      <svg id="next-page" xmlns="http://www.w3.org/2000/svg" height="38px" viewBox="0 0 24 24" width="38px"
-        fill="rgba(55, 55, 55, 0.768)">
-        <path d="M0 0h24v24H0z" fill="none" />
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-      </svg>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-line line-active0"></div>
-      <div class="circle-wrap">
-        <span class="dot dot-active"></span>
-        <span class="circle-text circle-text-active">Nahrátí map</span>
-      </div>      
-       <div class="circle-wrap">
-        <span class="dot"></span>
-        <span class=circle-text>Kategorie a pojmy</span>
-      </div>      
-       <div class="circle-wrap">
-        <span class="dot"></span>
-        <span class=circle-text>Tvorba otázek</span>
-      </div>      
-       <div class="circle-wrap">
-        <span class="dot"></span>
-        <span class=circle-text>Dokončení</span>
-      </div>
-    </div>
-  </div>
+    <% if (user && locals.author) { %>
 
-  <div class="pages">
-    <div class="map-upload-page">         
-      <div class="map-upload-button-wrap">
-        <label for="map-upload" id="map-label">
-              <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20" viewBox="0 0 24 24" width="20"><g><rect fill="none" height="20" width="20" /></g><g><path d="M5,20h14v-2H5V20z M5,10h4v6h6v-6h4l-7-7L5,10z" fill="rgb(45,45,45)" /></g></svg>
+      <div class="add-new-test-wrap">
+        <div>
+          <div class="progress-nav">
+            <svg id="previous-page" xmlns="http://www.w3.org/2000/svg" height="38px" viewBox="0 0 24 24" width="38px"
+              fill="rgba(55, 55, 55, 0.768)">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+            <svg id="next-page" xmlns="http://www.w3.org/2000/svg" height="38px" viewBox="0 0 24 24" width="38px"
+              fill="rgba(55, 55, 55, 0.768)">
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+            </svg>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress-line line-active0"></div>
+            <div class="circle-wrap">
+              <span class="dot dot-active"></span>
+              <span class="circle-text circle-text-active">Nahrátí map</span>
+            </div>
+            <div class="circle-wrap">
+              <span class="dot"></span>
+              <span class=circle-text>Kategorie a pojmy</span>
+            </div>
+            <div class="circle-wrap">
+              <span class="dot"></span>
+              <span class=circle-text>Tvorba otázek</span>
+            </div>
+            <div class="circle-wrap">
+              <span class="dot"></span>
+              <span class=circle-text>Dokončení</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pages">
+          <div class="map-upload-page">
+            <div class="map-upload-button-wrap">
+              <label for="map-upload" id="map-label">
+                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20"
+                  viewBox="0 0 24 24" width="20">
+                  <g>
+                    <rect fill="none" height="20" width="20" />
+                  </g>
+                  <g>
+                    <path d="M5,20h14v-2H5V20z M5,10h4v6h6v-6h4l-7-7L5,10z" fill="rgb(45,45,45)" />
+                  </g>
+                </svg>
                 Nahrát mapy
-              <input type="file" id="map-upload" multiple accept="image/*">
-            </label>
-            <div>Max. velikost mapy: 1 Mb</div>
-            <div>Max. počet map: 5</div>
-      </div>
-      <div class="maps-wrap">
-        <% if (test) { %>
-          <% for (let i = 0; i < test.test.maps.length; i++) { %>
-            <div class="map-wrap" id=" <%= test.test.maps[i].mapId %> ">
-              <div class="map-image">
-                <img src="<%= test.test.maps[i].src %>" alt="map">
-                <span class="close-map">✖</span>
-              </div>
-              <div class="map-info">
-                <div class="placeholder">Název mapy</div>
-                <input type="text" value="<%= test.test.maps[i].title %>">
-              </div>
+                <input type="file" id="map-upload" multiple accept="image/*">
+              </label>
+              <div>* Max. velikost mapy: 1 Mb</div>
+              <div>* Max. počet map: 5</div>
             </div>
-          <% } %> 
-        <% } %> 
-      </div>
-    </div>
-
-    <div class="category-and-terms-page">
-      <div class="create-category-wrap">
-        <div class="heading heading-xl">Vytvořit kategorie pojmů</div>
-        <div class="category-info">
-          Zde vypište všechny kategorie hledaných pojmů, které se budou nacházet v testu (pro zeměpisnou
-          slepou mapu by kategorie
-          mohly být např: <strong>stát</strong>, <strong>řeka</strong>, <strong>pohoří</strong>, ... )
-        </div>
-        <div class="tags-outer">
-          <% if (test) { %>
-            <% for (let i = 0; i < test.categories.length; i++) { %>
-              <div class="tag tag-category">
-                <span> <%= test.categories[i].category %> </span>
-                <span class="close-tag">×</span>
-              </div>
-            <% } %>
-          <% } %>
-          <div contenteditable="true" class="tags" placeholder="Přidat kategorii ..."></div>
-          <button id="add">+</button>
-        </div>
-      </div>
-      <div class="add-terms-wrap">
-        <div class="heading heading-xl">Přidat pojmy pro generování odpovědí (nepovinné)</div>
-        <div class="category-info">
-          Zde vypiště všechny pojmy pro automatické generování odpovědí
-          (pro slepou mapu Evropy by v kategorii státy
-          mohly být pojmy: <strong>Česko</strong>, <strong>Slovensko</strong>,
-          <strong>Německo</strong>, ... )
-        </div>
-        <% if (test) { %>
-          <% for (let i = 0; i < test.categories.length; i++) { %>
-            <div class="tags-outer tags-outer-term">
-              <div class="tag-nonclosable"><%= test.categories[i].category %> :</div>
-              <div class="wrap-tags">
-                <% for (let j = 0; j < test.categories[i].terms.length; j++) { %>
-                  <div class="tag tag-term">
-                    <span><%= test.categories[i].terms[j] %></span>
-                    <span class="close-tag">×</span>
+            <div class="maps-wrap">
+              <% if (test) { %>
+                <% for (let i=0; i < test.test.maps.length; i++) { %>
+                  <div class="map-wrap" id="<%= test.test.maps[i].mapId%>">
+                    <div class="map-image">
+                      <img src="<%= test.test.maps[i].src%>" alt="map">
+                      <span class="close-map">✖</span>
+                    </div>
+                    <div class="map-info">
+                      <div class="placeholder">Název mapy</div>
+                      <input type="text" value="<%=test.test.maps[i].title%>">
+                    </div>
                   </div>
-                <% } %>
-                <div contenteditable="true" class="tags-term" placeholder="Přidat pojem ..."></div>
-              </div>
-              <button class="add-term">+</button>
+                  <% } %>
+                    <% } %>
             </div>
-          <% } %> 
-        <% } %> 
-      </div>
-    </div>
-    <div class="creating-questions-page">
-      <div class="wrap-questions">
-         <div id="add-new-question">+</div>
-       </div>
+          </div>
 
+          <div class="category-and-terms-page">
+            <div class="create-category-wrap">
+              <div class="heading heading-xl">Vytvořit kategorie pojmů</div>
+              <div class="category-info">
+                Zde vypište všechny kategorie hledaných pojmů, které se budou nacházet v testu (pro zeměpisnou
+                slepou mapu by kategorie
+                mohly být např: <strong>stát</strong>, <strong>řeka</strong>, <strong>pohoří</strong>, ... )
+              </div>
+              <div class="tags-outer">
+                <% if (test) { %>
+                  <% for (let i=0; i < test.categories.length; i++) { %>
+                    <div class="tag tag-category">
+                      <span><%=test.categories[i].category%></span>
+                      <span class="close-tag">×</span>
+                    </div>
+                    <% } %>
+                      <% } %>
+                        <div contenteditable="true" class="tags" placeholder="Přidat kategorii ..."></div>
+                        <button id="add">+</button>
+              </div>
+            </div>
+            <div class="add-terms-wrap">
+              <div class="heading heading-xl">Přidat pojmy pro generování odpovědí (nepovinné)</div>
+              <div class="category-info">
+                Zde vypiště všechny pojmy pro automatické generování odpovědí
+                (pro slepou mapu Evropy by v kategorii státy
+                mohly být pojmy: <strong>Česko</strong>, <strong>Slovensko</strong>,
+                <strong>Německo</strong>, ... )
+              </div>
+              <% if (test) { %>
+                <% for (let i=0; i < test.categories.length; i++) { %>
+                  <div class="tags-outer tags-outer-term">
+                    <div class="tag-nonclosable"><%=test.categories[i].category%> :</div>
+                    <div class="wrap-tags">
+                      <% for (let j=0; j < test.categories[i].terms.length; j++) { %>
+                        <div class="tag tag-term">
+                          <span><%=test.categories[i].terms[j]%></span>
+                          <span class="close-tag">×</span>
+                        </div>
+                        <% } %>
+                          <div contenteditable="true" class="tags-term" placeholder="Přidat pojem ..."></div>
+                    </div>
+                    <button class="add-term">+</button>
+                  </div>
+                  <% } %>
+                    <% } %>
+            </div>
+          </div>
 
-
-       <div class="create-questions-panel"> 
-         <div class="canvas-wrap">
-           <div class="add-button-icon-wrap">
-             <div class="add-button-wrap">
-               <input type="checkbox" id="add-button-wrap">
-               <label for="add-button-wrap" id="add-button-label">  
-                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="rgb(65,65,65)"/></svg>
-               </label>                 
-             </div>
-            <div class="shape-options-wrap">
-                 <button data-shape="point">Bod</button>
-                 <button data-shape="line">Linie</button>
-                 <button data-shape="polygon">Polygon</button>
-               </div>
-               <input type="color" id="select-color">
-             <svg id="resize-icon" version="1.0" xmlns="http://www.w3.org/2000/svg"
-            width="1.75rem" height="1.75rem" viewBox="0 0 512.000000 512.000000"
-            preserveAspectRatio="xMidYMid meet">           
-           <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
-           fill="#4299FD" stroke="none" id="resize-icon-bg">
-           <path d="M370 4897 c-49 -16 -133 -102 -148 -153 -18 -60 -18 -4308 0 -4368
+          <div class="creating-questions-page">
+            <div class="wrap-questions">
+              <% if (test) { %>
+                <% for (let i=0; i < test.test.questions.length; i++) { %>
+                  <span>
+                    <input <% if (i==0) { %> checked <% } %> type="radio" id="question<%=i+1%>" data-questionindex="<%=i%>" name="question">
+                          <label for="question<%=i+1%>"><%=i+1%></label>
+                  </span>
+                  <% } %>
+                    <% } %>
+                      <div id="add-new-question">+</div>
+            </div>
+     
+            <div class="create-questions-panel<% if (test && test.test.questions.length > 0) { %> df<% } %>">
+ 
+              <div class="canvas-wrap">
+                <div class="add-button-icon-wrap">
+                  <div class="add-button-wrap">
+                    <input type="checkbox" id="add-button-wrap">
+                    <label for="add-button-wrap" id="add-button-label">
+                      <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="rgb(65,65,65)" />
+                      </svg>
+                    </label>
+                  </div>
+                  <div class="shape-options-wrap">
+                    <button data-shape="point">Bod</button>
+                    <button data-shape="line">Linie</button>
+                    <button data-shape="polygon">Polygon</button>
+                  </div>
+                  <input type="color" id="select-color">
+                  <svg id="resize-icon" version="1.0" xmlns="http://www.w3.org/2000/svg" width="1.75rem"
+                    height="1.75rem" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#4299FD" stroke="none"
+                      id="resize-icon-bg">
+                      <path d="M370 4897 c-49 -16 -133 -102 -148 -153 -18 -60 -18 -4308 0 -4368
            16 -55 99 -138 154 -154 60 -18 4308 -18 4368 0 55 16 138 99 154 154 18 60
            18 4308 0 4368 -16 55 -99 138 -154 154 -57 17 -4321 16 -4374 -1z m3901 -626
            l29 -29 0 -596 c0 -440 -3 -602 -12 -621 -15 -32 -56 -55 -99 -55 -29 0 -56
@@ -153,280 +171,376 @@
            -176 -181 -329 -339 -339 -351 l-20 -23 222 -222 c239 -240 241 -244 210 -312
            -25 -56 -16 -55 -663 -55 l-597 0 -29 29 -29 29 0 604 c0 556 2 605 18 624 23
            29 54 44 93 44 30 0 56 -23 254 -220 l220 -220 350 350 c192 193 352 350 355
-           350 3 0 68 -62 144 -139z"/>
-           </g>
-           </svg>          
-             </div>  
-          <canvas id="canvas"></canvas> 
-          <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="28" viewBox="0 0 24 24" width="28" class="resize-icon-all"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M15,3l2.3,2.3l-2.89,2.87l1.42,1.42L18.7,6.7L21,9V3H15z M3,9l2.3-2.3l2.87,2.89l1.42-1.42L6.7,5.3L9,3H3V9z M9,21 l-2.3-2.3l2.89-2.87l-1.42-1.42L5.3,17.3L3,15v6H9z M21,15l-2.3,2.3l-2.87-2.89l-1.42,1.42l2.89,2.87L15,21h6V15z"/></g></g></g></svg>
-         </div>
-
-         <div class="question-setting-wrap">
-           <h4 class="wrap-heading">mapa</h4>
-
-           <% if (test) { %>
-            <select name="choose-from-map" id="select-map">
-              <option value="" disabled selected>Vyberte mapu</option>
-              <% for (let i = 0; i < test.test.maps.length; i++) { %>
-                <option value="<%= test.test.maps[i].mapId %>"><%= test.test.maps[i].title %></option>
-              <% } %>
-            </select>
-         <% } else { %>
-          <select name="choose-from-map" id="select-map">
-            <option value="" disabled selected>Vyberte mapu</option>
-          </select>
-         <% } %>
-
-           <div class="line-separator"></div>
-
-           <h4 class="wrap-heading">kategorie otázky</h4>
-           <% if (test) { %>
-              <select name="choose-from-map" id="select-category">
-                <option value="none" disabled selected>Kategorie</option>
-                <% for (let i = 0; i < test.categories.length; i++) { %>
-                  <option value="<%= test.categories[i].category %>"><%= test.categories[i].category %></option>
-                <% } %>
-              </select>
-           <% } else { %>
-              <select name="choose-from-map" id="select-category">
-                <option value="none" disabled selected>Kategorie</option>
-              </select>
-           <% } %>
-
-           <div class="line-separator"></div> 
-           <h4 class="wrap-heading">nastavení odpovědí</h4>
-
-           <div class="answers-btns-wrap">   
-                   
-             <details>
-              <summary>
-                 <span>Zkusit náhodně (1-10)</span>
-                 <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" fill="#545151"/></svg>
-              </summary>
-              <div class="generate-wrap">
-                 <input type="number" id="generate-answers-input" min="1" max="10" value="1">
-                 <button id="generate-answers-btn">generovat</button>
+           350 3 0 68 -62 144 -139z" />
+                    </g>
+                  </svg>
+                </div>
+                <canvas id="canvas"></canvas>
+                <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="28"
+                  viewBox="0 0 24 24" width="28" class="resize-icon-all">
+                  <g>
+                    <rect fill="none" height="24" width="24" />
+                  </g>
+                  <g>
+                    <g>
+                      <g>
+                        <path
+                          d="M15,3l2.3,2.3l-2.89,2.87l1.42,1.42L18.7,6.7L21,9V3H15z M3,9l2.3-2.3l2.87,2.89l1.42-1.42L6.7,5.3L9,3H3V9z M9,21 l-2.3-2.3l2.89-2.87l-1.42-1.42L5.3,17.3L3,15v6H9z M21,15l-2.3,2.3l-2.87-2.89l-1.42,1.42l2.89,2.87L15,21h6V15z" />
+                      </g>
+                    </g>
+                  </g>
+                </svg>
               </div>
-           </details>
-           <button class="btn-basic-grey" id="add-answer-wrap">+</button>  
-           </div>
-           <div class="answers-wrap"></div>
-           <div class="line-separator"></div>
-           <h4 class="wrap-heading">počet bodů (1 - 10)</h4>
-           <div class="points">
-           <svg xmlns="http://www.w3.org/2000/svg" id="dec-point" height="32" viewBox="0 0 24 24" width="32"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13H5v-2h14v2z"fill="rgb(65,65,65)" id="dec-class" class="disabled"></svg>
-                         <span id="point-value">1</span>
-                         <svg xmlns="http://www.w3.org/2000/svg" id="inc-point"height="32" viewBox="0 0 24 24" width="32"><path d="M0 0h24v24H0z" fill="none"/><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" id="inc-class"fill="rgb(65,65,65)"/></svg>             
-           </div>
-           <div class="line-separator"></div>
-           <button id="delete-question">smazat otázku</button>
-           <button id="testbtn" onclick="getTags()">testing</button>
-         </div>
-       </div>
-    </div>
-    <div class="finishing-test-page">
-      <div id="test-name-wrap">
-        <h4 class="wrap-heading">Název testu</h4>
-        <% if (test) { %>
-          <input type="text" value="<%= test.title %>">
-         <% } else { %>
-          <input type="text">
-        <% } %>
-      </div>
 
-      
-      <div class="marks-wrap">
-        <h4 class="wrap-heading">nastavení známkování</h4>
-        <table>
-          <thead>
-             <tr class="head-row">
-              <td>známka</td>
-              <td>body</td>
-            </tr>
-          </thead> 
-          <tr>
-              <td>
-                <span class="mark-number">1</span>
-              </td>
-            <td>
-              <input class="table-input-number" type="number" value="0">
-              <span class="dash">–</span>
-              <input class="table-input-number" type="number" value="0">
-             </td>
-          </tr>
-          <tr>
-            <td>
-                <span class="mark-number">2</span>
-              </td>
-            <td>
-              <input class="table-input-number" type="number" value="0">
-              <span class="dash">–</span>
-              <input class="table-input-number" type="number" value="0">
-             </td>
-          </tr>
-          <tr>
-            <td>
-                <span class="mark-number">3</span>
-              </td>
-            <td>
-              <input class="table-input-number" type="number" value="0">
-              <span class="dash">–</span>
-              <input class="table-input-number" type="number" value="0">
-             </td>
-          </tr>
-          <tr>
-            <td>
-                <span class="mark-number">4</span>
-              </td>
-            <td>
-              <input class="table-input-number" type="number" value="0">
-              <span class="dash">–</span>
-              <input class="table-input-number" type="number" value="0">
-             </td>
-          </tr>
-          <tr>
-            <td>
-                <span class="mark-number">5</span>
-              </td>
-            <td>
-              <input class="table-input-number" type="number" value="0">
-              <span class="dash">–</span>
-              <input class="table-input-number" type="number" value="0">
-             </td>
-          </tr>
-        </table>  
-        <div class="total-points-wrap">
-          <span>Celkový počet bodů je: </span>
-          <span id="total-points-value">0</span>
-        </div>  
-      </div>
-      <div class="time-limit-wrap">
-        <h4 class="wrap-heading">Časový limit: </h4>
-        <select name="time-limit" id="selectTimeLimit">
-          <option value="null">Bez limitu</option>
-          <option value="5">5 minut</option>
-          <option value="10">10 minut</option>
-          <option value="15">15 minut</option>
-          <option value="20">20 minut</option>
-          <option value="25">25 minut</option>
-          <option value="30">30 minut</option>
-          <option value="35">35 minut</option>
-          <option value="40">40 minut</option>
-          <option value="45">45 minut</option>
-          <option value="50">50 minut</option>
-          <option value="55">55 minut</option>
-          <option value="60">60 minut</option>
-        </select>
-        <div>
-          <label for="shuffleQuestions">
-            <h4 class="wrap-heading">Zamíchat otázky:</h4>
-          </label>
-          <input type="checkbox" id="shuffleQuestions">                  
+              <div class="question-setting-wrap">
+                <h4 class="wrap-heading">mapa</h4>
+
+                <% if (test) { %>
+                  <select name="choose-from-map" id="select-map">
+                    <option value="null" disabled selected>Vyberte mapu</option>
+                    <% for (let i=0; i < test.test.maps.length; i++) { %>
+                      <option value="<%= test.test.maps[i].mapId %>">
+                        <%= test.test.maps[i].title %>
+                      </option>
+                      <% } %>
+                  </select>
+                  <% } else { %>
+                    <select name="choose-from-map" id="select-map">
+                      <option value="null" disabled selected>Vyberte mapu</option>
+                    </select>
+                    <% } %>
+
+                      <div class="line-separator"></div>
+
+                      <h4 class="wrap-heading">kategorie otázky</h4>
+                      <% if (test) { %>
+                        <select name="choose-from-map" id="select-category">
+                          <option value="none" disabled selected>Kategorie</option>
+                          <% for (let i=0; i < test.categories.length; i++) { %>
+                            <option value="<%=test.categories[i].category%>"><%= test.categories[i].category %></option>
+                            <% } %>
+                        </select>
+                        <% } else { %>
+                          <select name="choose-from-map" id="select-category">
+                            <option value="none" disabled selected>Kategorie</option>
+                          </select>
+                          <% } %>
+                            <div class="line-separator"></div>
+                            <h4 class="wrap-heading">nastavení odpovědí</h4>
+                            <div class="answers-btns-wrap">
+                              <details>
+                                <summary>
+                                  <span>Zkusit náhodně (1-10)</span>
+                                  <svg xmlns="http://www.w3.org/2000/svg" height="18" width="18">
+                                    <path d="m12 15.375-6-6 1.4-1.4 4.6 4.6 4.6-4.6 1.4 1.4Z" fill="rgb(75, 75, 75)" />
+                                  </svg>
+                                </summary>
+                                <div class="generate-wrap">
+                                  <input type="number" id="generate-answers-input" min="1" max="10" value="1">
+                                  <button id="generate-answers-btn">generovat</button>
+                                </div>
+                              </details>
+                              <button class="btn-basic-grey" id="add-answer-wrap">+</button>
+                            </div>
+                            <div class="answers-wrap"></div>
+                            <div class="line-separator"></div>
+                            <h4 class="wrap-heading">počet bodů (1 - 10)</h4>
+                            <div class="points">
+                              <svg xmlns="http://www.w3.org/2000/svg" id="dec-point" height="32" viewBox="0 0 24 24"
+                                width="32">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M19 13H5v-2h14v2z" fill="rgb(65,65,65)" id="dec-class" class="disabled">
+                              </svg>
+                              <span id="point-value">1</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" id="inc-point" height="32" viewBox="0 0 24 24"
+                                width="32">
+                                <path d="M0 0h24v24H0z" fill="none" />
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" id="inc-class" fill="rgb(65,65,65)" />
+                              </svg>
+                            </div>
+                            <div class="line-separator"></div>
+                            <button id="delete-question">smazat otázku</button>
+                            <button id="testbtn">testing</button>
+              </div>
+            </div>
+          </div>
+            <div class="finishing-test-page">
+              <div id="test-name-wrap">
+                <h4 class="wrap-heading">Název testu</h4>
+                <% if (test) { %>
+                  <input type="text" value="<%= test.title %>">
+                  <% } else { %>
+                    <input type="text">
+                    <% } %>
+              </div>
+
+
+              <div class="marks-wrap">
+                <h4 class="wrap-heading">nastavení známkování</h4>
+                <table>
+                  <thead>
+                    <tr class="head-row">
+                      <td>známka</td>
+                      <td>body</td>
+                    </tr>
+                  </thead>
+
+                  <% if (test) { %>
+                    <tr>
+                      <td>
+                        <span class="mark-number">1</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[0]%>">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[1]%>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">2</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[2]%>">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[3]%>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">3</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[4]%>">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[5]%>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">4</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[6]%>">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[7]%>">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">5</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[8]%>">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="<%=test.marksBoundaries[9]%>">
+                      </td>
+                    </tr>
+                  <% } else { %>
+                    <tr>
+                      <td>
+                        <span class="mark-number">1</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="0">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="0">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">2</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="0">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="0">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">3</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="0">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="0">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">4</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="0">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="0">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span class="mark-number">5</span>
+                      </td>
+                      <td>
+                        <input class="table-input-number" type="number" value="0">
+                        <span class="dash">–</span>
+                        <input class="table-input-number" type="number" value="0">
+                      </td>
+                    </tr>
+                    <% } %>
+                </table>
+                <div class="total-points-wrap">
+                  <span>Celkový počet bodů je: </span>
+                  <span id="total-points-value">0</span>
+                </div>
+              </div>
+              <div class="time-limit-wrap">
+                <h4 class="wrap-heading">Časový limit: </h4>
+                <% if (test) { %>
+                  <select name="time-limit" id="selectTimeLimit">
+                    <option value="null" <% if (test.timeLimit === null) { %> selected <% } %>>Bez limitu</option>
+                    <option value="5" <% if (test.timeLimit == 5) { %> selected <% } %>>5 minut</option>
+                    <option value="10" <% if (test.timeLimit == 10) { %> selected <% } %>>10 minut</option>
+                    <option value="15" <% if (test.timeLimit == 15) { %> selected <% } %>>15 minut</option>
+                    <option value="20" <% if (test.timeLimit == 20) { %> selected <% } %>>20 minut</option>
+                    <option value="25" <% if (test.timeLimit == 25) { %> selected <% } %>>25 minut</option>
+                    <option value="30" <% if (test.timeLimit == 30) { %> selected <% } %>>30 minut</option>
+                    <option value="35" <% if (test.timeLimit == 35) { %> selected <% } %>>35 minut</option>
+                    <option value="40" <% if (test.timeLimit == 40) { %> selected <% } %>>40 minut</option>
+                    <option value="45" <% if (test.timeLimit == 45) { %> selected <% } %>>45 minut</option>
+                    <option value="50" <% if (test.timeLimit == 50) { %> selected <% } %>>50 minut</option>
+                    <option value="55" <% if (test.timeLimit == 55) { %> selected <% } %>>55 minut</option>
+                    <option value="60" <% if (test.timeLimit == 60) { %> selected <% } %>>60 minut</option>
+                  </select>
+                  <% } else { %>
+                    <select name="time-limit" id="selectTimeLimit">
+                      <option value="null">Bez limitu</option>
+                      <option value="5">5 minut</option>
+                      <option value="10">10 minut</option>
+                      <option value="15">15 minut</option>
+                      <option value="20">20 minut</option>
+                      <option value="25">25 minut</option>
+                      <option value="30">30 minut</option>
+                      <option value="35">35 minut</option>
+                      <option value="40">40 minut</option>
+                      <option value="45">45 minut</option>
+                      <option value="50">50 minut</option>
+                      <option value="55">55 minut</option>
+                      <option value="60">60 minut</option>
+                    </select>                   
+                    <% } %>
+                <!-- <div>
+                  <label for="shuffleQuestions">
+                    <h4 class="wrap-heading">Zamíchat otázky:</h4>
+                  </label>
+                  <input type="checkbox" id="shuffleQuestions">
+                </div> -->
+              </div>
+              <button id="saveTest" class="btn btn--icon--before btn--blue btn--large">
+                <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+                  <path
+                    d="M42 13.85V39q0 1.2-.9 2.1-.9.9-2.1.9H9q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h25.15Zm-3 1.35L32.8 9H9v30h30ZM24 35.75q2.15 0 3.675-1.525T29.2 30.55q0-2.15-1.525-3.675T24 25.35q-2.15 0-3.675 1.525T18.8 30.55q0 2.15 1.525 3.675T24 35.75ZM11.65 18.8h17.9v-7.15h-17.9ZM9 15.2V39 9Z" />
+                </svg>
+                uložit test
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-      <button id="saveTest" class="btn btn--icon--before btn--blue btn--large">
-        <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48"><path d="M42 13.85V39q0 1.2-.9 2.1-.9.9-2.1.9H9q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h25.15Zm-3 1.35L32.8 9H9v30h30ZM24 35.75q2.15 0 3.675-1.525T29.2 30.55q0-2.15-1.525-3.675T24 25.35q-2.15 0-3.675 1.525T18.8 30.55q0 2.15 1.525 3.675T24 35.75ZM11.65 18.8h17.9v-7.15h-17.9ZM9 15.2V39 9Z"/></svg>
-        uložit test
-      </button>
-    </div>
-    </div>
-  </div>
-</div>
 
-<%- include('partials/footer'); %>
+        <%- include('partials/footer'); %>
 
-<script>
- // import { test } from '../components/questions.js';
+          <script>
+            // import { test } from '../components/questions.js';
 
-  function onlyOne(checkbox) {
-    debugger;
-    var checkboxes = document.getElementsByName('check')
-    let closestAnswerWrapElem = checkbox.closest('.answer-wrap')
-    if (closestAnswerWrapElem.classList.contains('answer-wrap-green')) {
-      checkbox.closest('.answer-wrap').classList.remove('answer-wrap-green')
-    } else {
-      checkbox.closest('.answer-wrap').classList.add('answer-wrap-green')
-    }
-    checkboxes.forEach((item) => {
-        if (item !== checkbox) { 
-          item.checked = false
-          item.closest('.answer-wrap').classList.remove('answer-wrap-green')
-        }
-    })
-  }
+            function onlyOne(checkbox) {
+              debugger;
+              var checkboxes = document.getElementsByName('check')
+              let closestAnswerWrapElem = checkbox.closest('.answer-wrap')
+              if (closestAnswerWrapElem.classList.contains('answer-wrap-green')) {
+                checkbox.closest('.answer-wrap').classList.remove('answer-wrap-green')
+              } else {
+                checkbox.closest('.answer-wrap').classList.add('answer-wrap-green')
+              }
+              checkboxes.forEach((item) => {
+                if (item !== checkbox) {
+                  item.checked = false
+                  item.closest('.answer-wrap').classList.remove('answer-wrap-green')
+                }
+              })
+            }
 
-  function getTags() {
-    let extractAllCategories = document.querySelectorAll('.tag-nonclosable');
-  
-    let allCategories = []
-  
-    extractAllCategories.forEach((el, index) => {
-      let category = el.innerText.slice(0,-2);
-      allCategories.push({category: category, terms: []})
-      let childrenLength = el.nextElementSibling.children.length - 1;
-      for (let i = 0; i < childrenLength; i++) {
-        let term = el.nextElementSibling.children[i].textContent.slice(0,-1);
-        allCategories[index].terms.push(term);
-      }
-    })
-    console.log(allCategories);
-    return allCategories;
-  }
+            function getTags() {
+              let extractAllCategories = document.querySelectorAll('.tag-nonclosable');
 
-  let generateInput = document.querySelector('#generate-answers-input');
-  let generateButton = document.querySelector('#generate-answers-btn');
-  let categoryElement = document.querySelector('#select-category')
-  generateButton.onclick = generateOptions;
+              let allCategories = []
 
-  function generateOptions() {
-    debugger;
-    let generateCount = generateInput.value;
-    if (isNaN(generateCount) || generateCount == "" || generateCount > 10 || generateCount < 1) {
-      generateCount = 1;
-    }
+              extractAllCategories.forEach((el, index) => {
+                let category = el.innerText.slice(0, -2);
+                allCategories.push({ category: category, terms: [] })
+                let childrenLength = el.nextElementSibling.children.length - 1;
+                for (let i = 0; i < childrenLength; i++) {
+                  let term = el.nextElementSibling.children[i].textContent.slice(0, -1);
+                  allCategories[index].terms.push(term);
+                }
+              })
+              console.log(allCategories);
+              return allCategories;
+            }
 
-    allCategoriesAndTerms = getTags();
-    let terms = [];
+            let generateInput = document.querySelector('#generate-answers-input');
+            let generateButton = document.querySelector('#generate-answers-btn');
+            let categoryElement = document.querySelector('#select-category')
+            generateButton.onclick = generateOptions;
 
-    if (categoryElement.selectedIndex == 0) {
-      // console.log('Display error')
-      // or generate from all values created
-    } else {
-      // loadovat data z predeslych otazek
-      let selectedValue = categoryElement.value;
-      allCategoriesAndTerms.forEach(el => {
-        if (el.category == selectedValue) {
-          terms = el.terms;
-        }
-      })
-      if (generateCount > terms.length) {
-        const uniqueNumbers = generateUniqueNumbers(terms.length, 0, terms.length - 1);
-        uniqueNumbers.forEach(el => {
-          createAnswerWrap(terms[el]);
-        })
-      } else {
-        const uniqueNumbers = generateUniqueNumbers(generateCount, 0, terms.length - 1);
-         uniqueNumbers.forEach(el => {
-          createAnswerWrap(terms[el]);
-        })
-      }
-    }
-  }
+            function generateOptions() {
+              debugger;
+              let generateCount = generateInput.value;
+              if (isNaN(generateCount) || generateCount == "" || generateCount > 10 || generateCount < 1) {
+                generateCount = 1;
+              }
 
-  function generateUniqueNumbers(n, start, end) {  
-    const numbers = new Set();
-    while (numbers.size < n) {
-      const randomNum = Math.floor(Math.random() * (end - start + 1)) + start;
-      numbers.add(randomNum);
-    }
-    return Array.from(numbers);
-  }
+              allCategoriesAndTerms = getTags();
+              let terms = [];
 
-  function createAnswerWrap(term) {
-    debugger;
-    let asnwerWrap = document.querySelector('.answers-wrap')
-    let parent = asnwerWrap;
-    let html = `<div class="answer-wrap">
+              if (categoryElement.selectedIndex == 0) {
+                // console.log('Display error')
+                // or generate from all values created
+              } else {
+                // loadovat data z predeslych otazek
+                let selectedValue = categoryElement.value;
+                allCategoriesAndTerms.forEach(el => {
+                  if (el.category == selectedValue) {
+                    terms = el.terms;
+                  }
+                })
+                if (generateCount > terms.length) {
+                  const uniqueNumbers = generateUniqueNumbers(terms.length, 0, terms.length - 1);
+                  uniqueNumbers.forEach(el => {
+                    createAnswerWrap(terms[el]);
+                  })
+                } else {
+                  const uniqueNumbers = generateUniqueNumbers(generateCount, 0, terms.length - 1);
+                  uniqueNumbers.forEach(el => {
+                    createAnswerWrap(terms[el]);
+                  })
+                }
+              }
+            }
+
+            function generateUniqueNumbers(n, start, end) {
+              const numbers = new Set();
+              while (numbers.size < n) {
+                const randomNum = Math.floor(Math.random() * (end - start + 1)) + start;
+                numbers.add(randomNum);
+              }
+              return Array.from(numbers);
+            }
+
+            function createAnswerWrap(term) {
+              debugger;
+              let asnwerWrap = document.querySelector('.answers-wrap')
+              let parent = asnwerWrap;
+              let html = `<div class="answer-wrap">
     <input class="answer-text" placeholder="Odpověď" value="${term}"></input>
     <button class="close-term">×</button>
     <div class="answer-checkbox">
@@ -434,174 +548,211 @@
       <span>správná odpověď</span>
     </div>
   </div>`
-    parent.insertAdjacentHTML('beforeend', html);
-  }   
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.js"></script>
-<script src="/script.js" type="module" defer></script>
+              parent.insertAdjacentHTML('beforeend', html);
+            }   
+          </script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.js"></script>
+          <script src="/script.js" type="module" defer></script>
 
-<% } else { %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.js"></script>
-  <script>
-    window.addEventListener('DOMContentLoaded', (event) => {
-      console.log('DOM fully loaded and parsed');
-  });
-  </script>
+          <% } else { %>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/521/fabric.js"></script>
+            <script>
+              window.addEventListener('DOMContentLoaded', (event) => {
+                console.log('DOM fully loaded and parsed');
+                let answerBtns = document.querySelectorAll('.btn').forEach(el => el.addEventListener('click', markAsChecked));
 
-  <div class="wrapper">
-    <div class="wrap">
-      <% for (let i = 0; i < test.test.questions.length; i++) { %> <!--  test.test.questions.length -->
-        <div class="<%= i === 0 ? 'question active' : 'question' %>"><%=i+1%></div>
-      <% } %>
-    </div>
-    <% for (let i = 0; i < test.test.questions.length; i++) { %>
-      <div class="<%= i === 0 ? 'question-content-active' : 'question-content' %>">
-        <div class="options">
-          <% for (let j = 0; j < test.test.questions[i].answers.length; j++) { %> 
-            <button class="btn">
-              <%= test.test.questions[i].answers[j].term %>
-            </button>
-          <% } %>
-        </div>  
-        <div class="canvas-wrap">
-          <canvas id="canvas<%= i %>"></canvas>
-        </div>
-      </div>
-    <% } %>
+                function markAsChecked(e) {
+                  let parent = e.target.closest('.options');
+                  if (parent.querySelector('.btn--checked') == e.target) {
+                    e.target.classList.toggle('btn--checked');
+                    markQuestionIconAsChecked()
+                    return;
+                  }
+                  if (parent.querySelector('.btn--checked')) {
+                    parent.querySelector('.btn--checked').classList.toggle('btn--checked')
+                    markQuestionIconAsChecked()
+                  }
+                  markQuestionIconAsChecked()
+                  e.target.classList.toggle('btn--checked');
+                }
+                function markQuestionIconAsChecked() {
+                  document.querySelector('.question.active').classList.toggle('done');
+                }
+              });
+            </script>
+
+            <div class="wrapper">
+              <h2>Test: <%=test.title%></h2>
+              <div class="wrap">
+                <% for (let i=0; i < test.test.questions.length; i++) { %> <!--  test.test.questions.length -->
+                  <div class="<%= i === 0 ? 'question active' : 'question' %>">
+                    <%=i+1%>
+                  </div>
+                  <% } %>
+              </div>
+              <% for (let i=0; i < test.test.questions.length; i++) { %>
+                <div class="<%= i === 0 ? 'question-content-active' : 'question-content' %>">
+                  <div class="options">
+                    <% for (let j=0; j < test.test.questions[i].answers.length; j++) { %>
+                      <button class="btn">
+                        <%= test.test.questions[i].answers[j].term %>
+                      </button>
+                      <% } %>
+                  </div>
+                  <div class="canvas-wrap">
+                    <canvas id="canvas<%= i %>"></canvas>
+                  </div>
+                </div>
+                <% } %>
 
 
-    <script>
-      window.onload = function() {
+                  <script>
+                    window.onload = function () {
         <% for (let i = 0; i < test.test.questions.length; i++) { %>
           var canvas<%= i %> = new fabric.Canvas('canvas<%= i %>');
-          fabric.Image.fromURL('<%= test.test.maps[0].src %>', function(img) {
-            img.scaleToWidth(800,true);
-            canvas<%= i %>.setDimensions({width:800, height: img.getScaledHeight()})
-            canvas<%= i %>.add(img);
-            img.selectable = false;
-            img.hoverCursor = "default";
-            console.log(<%-test.test.questions[i].shapes%>);
-            var shapes<%= i %> = <%- JSON.stringify(test.test.questions[i].shapes) %>;
-            canvas<%= i %>.loadFromJSON(shapes<%= i %>);
-            canvas<%= i %>.sendToBack(img);
-            canvas<%= i %>.forEachObject(function(obj) {
-              obj.selectable = false;
-              obj.hoverCursor = "default";
-            });
-          });
+                        fabric.Image.fromURL('<%= test.test.maps[0].src %>', function (img) {
+                          img.scaleToWidth(800, true);
+                          canvas <%= i %>.setDimensions({ width: 800, height: img.getScaledHeight() })
+                          canvas <%= i %>.add(img);
+                          img.selectable = false;
+                          img.hoverCursor = "default";
+                          console.log(<% -test.test.questions[i].shapes %>);
+                          var shapes<%= i %> = <% - JSON.stringify(test.test.questions[i].shapes) %>;
+                          canvas <%= i %>.loadFromJSON(shapes <%= i %>);
+                          canvas <%= i %>.sendToBack(img);
+                          canvas <%= i %>.forEachObject(function (obj) {
+                            obj.selectable = false;
+                            obj.hoverCursor = "default";
+                          });
+                        });
         <% } %>
       }
-    </script>
-  </div>
-
-<style>
-body{
-  background: rgb(236,236,236);
-}
-.wrapper {
-  height: 100%;
-  width: 100%;
-  max-width: 70rem;
-  padding: 0 1rem 1rem 1rem;
-  background: rgb(255 255 255);
-  border:1px solid red;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-}
-.canvas-wrap {
-  border:1px solid red;
-  display:flex;
-  justify-content: center;
-  max-width: 100%;
-}
-.options {
-  display:grid;
-  gap:0.5rem;
-  grid-template-columns:1fr 1fr 1fr;
-  grid-auto-rows: 1fr;
-  margin: 1rem 0;
-} 
-
-.btn {
-  background:rgb(239,239,239);
-  border-radius:0.25rem;
-  padding:1rem 0.1rem;
-  min-height: 4rem;
-  width:auto;
-  max-width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  font-weight:600;
-  text-transform:uppercase;
-  font-size:0.9rem;
-  user-select:none;
-  cursor:pointer;
-  word-break: break-all;
-}
-.btn:hover {
-  background:#51cdd38f;
-}
-canvas {
-  border-radius:0.5rem;
-}
-.question {
-  background-color: rgb(236,236,236);
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  cursor: pointer;
-}
-
-.wrap {
-  display:flex;
-  gap:0.5rem;
-  padding:1rem;
-  background-color:rgb(248,248,248);
-  border-radius: 0.5rem;
-}
-.done {
-  background-color: #51cdd38f;
-}
-.active {
-  outline: 2px solid #ff8318;
-}
-.question-content {
-  display:none;
-}
-.question-content-active {
-  display:block;
-}
-
-.question:hover {
-  outline: 2px solid #ff8318;
-}
-</style>
-
-<script>
-  let allQuestion = document.querySelectorAll('.question')
-  allQuestion.forEach(el => el.addEventListener('click', selectQuestion))
-  
-  function selectQuestion(e) {
-    debugger;
-    document.querySelector('.question.active').classList.remove('active')
-    e.target.classList.add('active')
-    document.querySelector('.question-content-active').classList.replace('question-content-active','question-content')
-    let questionNumToChange = Number(e.target.innerText);
-    let test =  document.querySelectorAll('.question-content')[questionNumToChange-1];
-    test.classList.replace('question-content', 'question-content-active')
-
-  }
-</script>
 
 
-<%- include('partials/footer'); %>
+                  </script>
+            </div>
 
-<% } %>
+            <style>
+              body {
+                background: rgb(236, 236, 236);
+              }
+
+              .wrapper {
+                height: 100%;
+                width: 100%;
+                max-width: 70rem;
+                padding: 0 1rem 1rem 1rem;
+                background: rgb(255 255 255);
+                border: 1px solid red;
+                display: grid;
+                grid-template-rows: auto auto 1fr;
+              }
+
+              .canvas-wrap {
+                border: 1px solid red;
+                display: flex;
+                justify-content: center;
+                max-width: 100%;
+              }
+
+              .options {
+                display: grid;
+                gap: 0.5rem;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-auto-rows: 1fr;
+                margin: 1rem 0;
+              }
+
+              .btn {
+                background: rgb(239, 239, 239);
+                border-radius: 0.25rem;
+                padding: 1rem 0.1rem;
+                min-height: 4rem;
+                width: auto;
+                max-width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                font-weight: 600;
+                text-transform: uppercase;
+                font-size: 0.9rem;
+                user-select: none;
+                cursor: pointer;
+                word-break: break-all;
+              }
+
+              .btn:hover {
+                background: #51cdd38f;
+              }
+              .btn--checked {
+                background: #51cdd38f;
+              }
+
+              canvas {
+                border-radius: 0.5rem;
+              }
+
+              .question {
+                background-color: rgb(236, 236, 236);
+                width: 3rem;
+                height: 3rem;
+                border-radius: 0.5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                cursor: pointer;
+              }
+
+              .wrap {
+                display: flex;
+                gap: 0.5rem;
+                padding: 1rem;
+                background-color: rgb(248, 248, 248);
+                border-radius: 0.5rem;
+              }
+
+              .done {
+                background-color: #51cdd38f;
+              }
+
+              .active {
+                outline: 2px solid #ff8318;
+              }
+
+              .question-content {
+                display: none;
+              }
+
+              .question-content-active {
+                display: block;
+              }
+
+              .question:hover {
+                outline: 2px solid #ff8318;
+              }
+            </style>
+
+            <script>
+              let allQuestion = document.querySelectorAll('.question')
+              allQuestion.forEach(el => el.addEventListener('click', selectQuestion))
+
+              function selectQuestion(e) {
+                debugger;
+                document.querySelector('.question.active').classList.remove('active')
+                e.target.classList.add('active')
+                document.querySelector('.question-content-active').classList.replace('question-content-active', 'question-content')
+                let questionNumToChange = Number(e.target.innerText);
+                let test = document.querySelectorAll('.question-content')[questionNumToChange - 1];
+                test.classList.replace('question-content', 'question-content-active')
+
+              }
+            </script>
+
+
+            <%- include('partials/footer'); %>
+
+              <% } %>

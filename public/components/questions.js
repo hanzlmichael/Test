@@ -13,9 +13,10 @@ export function initQuestionsBar() {
   //document.querySelector('#testbtn').addEventListener('click', saveQuestion);
 }
 
+let wrapQuestionsElem = document.querySelector('.wrap-questions');
+console.log('wrap q : ', wrapQuestionsElem.children.length)
 let actualQuestionIndex = -1;
-let questionNumber = 0;
-
+let questionNumber = wrapQuestionsElem.children.length > 1 ? wrapQuestionsElem.children.length - 1 : 0;
 
 export let maps = [];
 export let test;
@@ -37,15 +38,44 @@ function handleTestInDb() {
   }
 }
 
+export function getTestById() {
+  debugger;
+  let url = window.location.href;
+  const lastString = url.split("/").pop();
+  fetch(`/tests/${lastString}/edit`, {
+      method: 'GET',
+      credentials: 'include'
+    }).then(response=>response.json())
+      .then(data=> {
+        console.log(data);
+        test = data.test;
+        console.log('test OBJ : ', test);
+        actualQuestionIndex = 0;
+        if (test.questions.length > 0) {
+          displayQuestion();
+        } else {
+          actualQuestionIndex = -1;
+        }
+      })
+     
+}
+
+function getMarksBoundaries() {
+  let inputs = document.querySelectorAll('.table-input-number')
+  let values = []
+  inputs.forEach(el => values.push(el.value))
+  return values;
+}
+
 async function saveTestToDb() {
   try {
-    console.log('yes')
     let title = testTitle.value;
     let categories = getTags();
-    console.log('title ', title);
+    let timeLimit = document.querySelector('#selectTimeLimit').value;
+    let marksBoundaries = getMarksBoundaries();
     const res = await fetch('/tests/new', {
       method: 'POST', 
-      body: JSON.stringify( { title, categories, test } ),
+      body: JSON.stringify( { title, categories, test, marksBoundaries, timeLimit } ),
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
     })
@@ -63,12 +93,14 @@ async function updateTestInDb(id) {
     console.log('yes')
     let title = testTitle.value;
     let categories = getTags();
+    let timeLimit = document.querySelector('#selectTimeLimit').value;
+    let marksBoundaries = getMarksBoundaries();
     console.log('id ', id);
     let fetchUrl = '/tests/' + id;
     console.log('fetchurl ', fetchUrl)
     const res = await fetch(fetchUrl, {
       method: 'PUT', 
-      body: JSON.stringify( { title, categories, test } ),
+      body: JSON.stringify( { title, categories, test, marksBoundaries, timeLimit } ),
       headers: {'Content-Type': 'application/json'},
       credentials: 'include'
     })
@@ -132,6 +164,10 @@ function displayQuestion() {
   setCategory(category);
   setAnswers(answers);
   setPoints(points);
+  if (shapes === null) {
+    canvas.clear();
+    return;
+  }
   canvas.loadFromJSON(shapes);
 /* 
   setMap(map);
@@ -195,6 +231,7 @@ function getActualQuestion() {
 let pointElement = document.querySelector('#point-value')
 let categoryElement = document.querySelector('#select-category')
 let mapElement = document.querySelector('#select-map')
+console.log('mapElement: ', mapElement);
 let answersWrap = document.querySelector('.answers-wrap')
 
 let questionIconWrap = document.querySelector('.wrap-questions');
@@ -249,6 +286,9 @@ function getCategory() {
 }
 
 function setCategory(category) {
+  if (category === null) {
+    return;
+  }
   categoryElement.value = category;
 } 
 function setDefaultCategory() {
@@ -273,6 +313,9 @@ function getAnswers() {
 }
 function setAnswers(allAnswers) {
   debugger;
+  if (allAnswers === null || allAnswers === "null") {
+    return;
+  }
   answersWrap.innerHTML = ''
   allAnswers.forEach(question => {
     createAnswerWrap();
@@ -295,7 +338,7 @@ function getMap() {
   return mapElement.item(mapElement.selectedIndex).value
 }
 function setMap(mapId) {
-  if (mapId == '') {
+  if (mapId === null || mapId === "null") {
     mapElement.selectedIndex = 0;
     return;
   }

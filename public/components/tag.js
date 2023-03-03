@@ -39,9 +39,12 @@ const targetNode = document.querySelector('.tags-outer')
 let selectCategory = document.querySelector('#select-category')
 
 function observe() {
+  debugger;
   console.log('observe')
   const callback = mutations => {
+    debugger;
     mutations.forEach(mutation => {
+      debugger;
       if (mutation.type === 'childList') {
         if (mutation.addedNodes[0]) {
          let addedNode = extractCategoryFromAddedHTMLNode(mutation.addedNodes[0].innerText)
@@ -53,7 +56,9 @@ function observe() {
           createTermBlock(addedNode)
         }
         if (mutation.removedNodes[0]) {
+          console.log(mutation.removedNodes[0])
           let deletedNode = extractCategoryFromDeletedHTMLNode(mutation.removedNodes[0].innerText)
+          deletedNode = mutation.removedNodes[0].children[0].textContent;
           deleteTermBlock(deletedNode)
           /* console.log('removed node= ', removedNodes[0]) */
           let index = [...selectCategory.options].find(o=> o.value==deletedNode).index
@@ -87,6 +92,7 @@ function createTermBlock(term) {
 }
 
 function deleteTermBlock(term) {
+  debugger;
   let nodes = document.querySelectorAll('.tags-outer-term .tag-nonclosable')
   let extractedCategories = []
   nodes.forEach(el => extractedCategories.push((el.innerText).slice(0,-2)))

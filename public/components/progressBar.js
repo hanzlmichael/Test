@@ -1,3 +1,5 @@
+import { test } from './questions.js'; 
+
 export function initProgressBar() {
   previousBtn.onclick = previousPage
   nextBtn.onclick = nextPage
@@ -54,13 +56,27 @@ function isCountInvalid(count, num) {
 }
   
 function displayPage(count) {
+  debugger;
   for (let i = 0; i < 4; i++) {
     pages[i].style.display = 'none';
   }
   pages[count].style.display = 'block'
- 
+  
+  if (count === 3) {
+    setTotalSumPoints()
+  }
+
   /* for (item of pages) {
     item.style.display = 'none'
   }
   pages[count].style.display = 'block' */
+}
+
+function setTotalSumPoints() {
+  let questionLength = test.questions.length;
+  let totalPoints = 0;
+  for (let i = 0; i < questionLength; i++) {
+    totalPoints += Number(test.questions[i].points)
+  }
+  document.querySelector('#total-points-value').textContent = totalPoints;
 }
