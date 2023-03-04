@@ -142,3 +142,9 @@ module.exports.updateTestById = async (req, res) => {
     }
   });  
 }
+
+module.exports.getMapsByTestId = async (req,res) => {
+  const testId = req.params.testId;
+  console.log(testId);
+  res.json({results: testId});
+}

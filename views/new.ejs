@@ -560,6 +560,8 @@
               window.addEventListener('DOMContentLoaded', (event) => {
                 console.log('DOM fully loaded and parsed');
                 let answerBtns = document.querySelectorAll('.btn').forEach(el => el.addEventListener('click', markAsChecked));
+                getMaps()
+
 
                 function markAsChecked(e) {
                   let parent = e.target.closest('.options');
@@ -578,11 +580,55 @@
                 function markQuestionIconAsChecked() {
                   document.querySelector('.question.active').classList.toggle('done');
                 }
+                async function getMaps() {
+                  console.log('yeeeeeeeeeeeeeeeeeeeeeee')
+                  let testId = window.location.href.split('/').pop();
+                  const res = await fetch(`/tests/${testId}/maps`, {
+                    method: 'GET', 
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'include'
+                  })
+                  if (res) {
+                    console.log('res : ', res)
+                  }
+                }
+                let timeLimitInMinutes = Number(document.querySelector('#countdown').getAttribute('data-timelimit'));
+                let tenMinutesLater = new Date(new Date().getTime() + timeLimitInMinutes * 60 * 1000).getTime();
+                console.log('timeLimitInMinutes ', timeLimitInMinutes)
+                if (isNaN(timeLimitInMinutes)) {
+                  document.querySelector('#countdown').style.opacity = 0;
+                  return;
+                } else {
+                  let x = setInterval(function() {
+                    let now = new Date().getTime();
+                    let distance = tenMinutesLater - now;
+                    
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    if (minutes < 10) {
+                      minutes = "0" + minutes;
+                    }
+                    if (seconds < 10) {
+                      seconds = "0" + seconds
+                    }
+                    document.getElementById("countdown").innerHTML =  minutes + ":" + seconds;
+                      
+                    if (distance < 0) {
+                      clearInterval(x);
+                      document.getElementById("countdown").innerHTML = "EXPIRED";
+                    }
+                  }, 1000)
+                }
+
               });
             </script>
 
             <div class="wrapper">
-              <h2>Test: <%=test.title%></h2>
+              <div class="title-wrap">
+                <h2>Test: <%=test.title%></h2>
+                <div id="countdown" data-timelimit="<%=test.timeLimit%>"> &nbsp; </div>
+              </div>
               <div class="wrap">
                 <% for (let i=0; i < test.test.questions.length; i++) { %> <!--  test.test.questions.length -->
                   <div class="<%= i === 0 ? 'question active' : 'question' %>">
@@ -609,24 +655,25 @@
                   <script>
                     window.onload = function () {
         <% for (let i = 0; i < test.test.questions.length; i++) { %>
-          var canvas<%= i %> = new fabric.Canvas('canvas<%= i %>');
+          var canvas<%=i%> = new fabric.Canvas('canvas<%= i %>');
                         fabric.Image.fromURL('<%= test.test.maps[0].src %>', function (img) {
-                          img.scaleToWidth(800, true);
-                          canvas <%= i %>.setDimensions({ width: 800, height: img.getScaledHeight() })
-                          canvas <%= i %>.add(img);
+                          img.scaleToWidth(804, true);
+                          canvas<%=i%>.setDimensions({ width: 800.78, height: img.getScaledHeight() })
+                          canvas<%=i%>.add(img);
                           img.selectable = false;
                           img.hoverCursor = "default";
-                          console.log(<% -test.test.questions[i].shapes %>);
-                          var shapes<%= i %> = <% - JSON.stringify(test.test.questions[i].shapes) %>;
-                          canvas <%= i %>.loadFromJSON(shapes <%= i %>);
-                          canvas <%= i %>.sendToBack(img);
-                          canvas <%= i %>.forEachObject(function (obj) {
+                          console.log(<%- test.test.questions[i].shapes %>);
+                          var shapes<%=i%> = <%- JSON.stringify(test.test.questions[i].shapes) %>;
+                          canvas<%=i%>.loadFromJSON(shapes<%=i%>);
+                          canvas<%=i%>.sendToBack(img);
+                          canvas<%=i%>.forEachObject(function (obj) {
                             obj.selectable = false;
                             obj.hoverCursor = "default";
                           });
                         });
         <% } %>
       }
+
 
 
                   </script>
@@ -636,6 +683,21 @@
               body {
                 background: rgb(236, 236, 236);
               }
+              #countdown {
+                background-color:rgb(245,245,245);
+                width: 5.75rem;
+                padding: 0.25rem 1.25rem;
+                border-radius:0.5rem;
+                font-size:1.25rem;
+                font-weight:500;
+              }
+              .wrapper .title-wrap {
+                display:flex;
+                align-items:center;
+                justify-content: space-between;
+                border-bottom: 2px solid #dededed9;
+                margin-bottom: 1rem;
+              }
 
               .wrapper {
                 height: 100%;
@@ -643,13 +705,13 @@
                 max-width: 70rem;
                 padding: 0 1rem 1rem 1rem;
                 background: rgb(255 255 255);
-                border: 1px solid red;
+               
                 display: grid;
                 grid-template-rows: auto auto 1fr;
               }
 
               .canvas-wrap {
-                border: 1px solid red;
+                margin-top: 3rem;
                 display: flex;
                 justify-content: center;
                 max-width: 100%;
@@ -658,7 +720,8 @@
               .options {
                 display: grid;
                 gap: 0.5rem;
-                grid-template-columns: 1fr 1fr 1fr;
+                
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 grid-auto-rows: 1fr;
                 margin: 1rem 0;
               }
@@ -708,8 +771,9 @@
               }
 
               .wrap {
-                display: flex;
-                gap: 0.5rem;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(2.5rem,1fr));
+                gap:  1rem;
                 padding: 1rem;
                 background-color: rgb(248, 248, 248);
                 border-radius: 0.5rem;
@@ -729,6 +793,7 @@
 
               .question-content-active {
                 display: block;
+                overflow-x: scroll;
               }
 
               .question:hover {

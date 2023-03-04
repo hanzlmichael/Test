@@ -52,6 +52,11 @@
 }
 .navbar-wrap svg {
   margin-right: 0.75rem;
+
+}
+.navbar-wrap svg:hover {
+  background-color: #363636;
+  border-radius: 0.25rem;
 }
 .logo {
   text-transform: uppercase;
@@ -98,6 +103,7 @@ main {
   padding:1.5rem;
   background-color: rgb(255, 255, 255);
   border-radius:0.5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }
 .layout-login form {
   /* gap:1rem; */
@@ -212,7 +218,7 @@ position: relative;
     position: relative;
     display: grid;
     background-color: #f3f3f396;
-    padding: 1rem;
+    padding: 3rem;
     top: -2rem;
     border-radius: 0.5rem;
 }
@@ -645,7 +651,6 @@ position: relative;
 .canvas-wrap {  
   width:100%;
   position: relative;
-  box-shadow: rgb(17 17 26 / 10%) 0px 8px 24px, rgb(17 17 26 / 10%) 0px 16px 56px, rgb(17 17 26 / 10%) 0px 24px 80px;
 }
 #canvas {
   background-color: rgb(245,245,245);
@@ -1382,6 +1387,12 @@ tr {
 }
 
 @media screen and (max-width:600px) {
+  .landing-page {
+    padding:1rem;
+  }
+  .landing-page a {
+    padding:1rem 0.5rem;
+  }
   .logo {
     font-size: 1rem;
     background-color: transparent;
@@ -1444,8 +1455,6 @@ tr {
 
 
 .wrapper h2 {
-  padding: 2rem 0.5rem 1rem 0.5rem;
+  padding: 1.5rem 0.5rem 1rem 0.5rem;
   font-size: 2rem;
-  border-bottom: 2px solid #dededed9;
-  margin-bottom: 1rem;
 }

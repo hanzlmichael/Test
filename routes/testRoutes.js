@@ -12,4 +12,5 @@ router.delete('/:testId', requireAuth, testController.deleteTest);
 router.get('/:testId', checkAuthor, testController.getTestById);
 router.get('/:testId/edit', checkAuthor, testController.getTestByIdAndEdit);
 router.put('/:testId', requireAuth, checkAuthor, testController.updateTestById);
+router.get('/:testId/maps', checkAuthor, testController.getMapsByTestId);
 module.exports = router;
