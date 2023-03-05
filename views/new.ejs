@@ -660,6 +660,7 @@
                           img.scaleToWidth(804, true);
                           canvas<%=i%>.setDimensions({ width: 800.78, height: img.getScaledHeight() })
                           canvas<%=i%>.add(img);
+                          canvas<%=i%>.allowTouchScrolling = true;
                           img.selectable = false;
                           img.hoverCursor = "default";
                           console.log(<%- test.test.questions[i].shapes %>);
@@ -715,6 +716,7 @@
                 display: flex;
                 justify-content: center;
                 max-width: 100%;
+                overflow-x: scroll;
               }
 
               .options {
