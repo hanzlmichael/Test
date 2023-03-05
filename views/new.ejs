@@ -622,6 +622,26 @@
                 }
 
               });
+              (function(){
+                var defaultOnTouchStartHandler = fabric.Canvas.prototype._onTouchStart;
+                fabric.util.object.extend(fabric.Canvas.prototype, { 
+                  _onTouchStart: function(e) { 
+                    var target = this.findTarget(e); 
+                    // if allowTouchScrolling is enabled, no object was at the
+                    // the touch position and we're not in drawing mode, then 
+                    // let the event skip the fabricjs canvas and do default
+                    // behavior
+                    if (this.allowTouchScrolling && !target && !this.isDrawingMode) { 
+                      // returning here should allow the event to propagate and be handled
+                      // normally by the browser
+                      return; 
+                    } 
+              
+                    // otherwise call the default behavior
+                    defaultOnTouchStartHandler.call(this, e); 
+                  } 
+                });
+              })();
             </script>
 
             <div class="wrapper">
@@ -660,6 +680,7 @@
                           img.scaleToWidth(804, true);
                           canvas<%=i%>.setDimensions({ width: 800.78, height: img.getScaledHeight() })
                           canvas<%=i%>.add(img);
+                          canvas<%=i%>.perPixelTargetFind = true;
                           canvas<%=i%>.allowTouchScrolling = true;
                           img.selectable = false;
                           img.hoverCursor = "default";
