@@ -155,25 +155,8 @@
                     <button data-shape="line">Linie</button>
                     <button data-shape="polygon">Polygon</button>
                   </div>
-                  <input type="color" id="select-color">
-                  <svg id="resize-icon" version="1.0" xmlns="http://www.w3.org/2000/svg" width="1.75rem"
-                    height="1.75rem" viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
-                    <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="#4299FD" stroke="none"
-                      id="resize-icon-bg">
-                      <path d="M370 4897 c-49 -16 -133 -102 -148 -153 -18 -60 -18 -4308 0 -4368
-           16 -55 99 -138 154 -154 60 -18 4308 -18 4368 0 55 16 138 99 154 154 18 60
-           18 4308 0 4368 -16 55 -99 138 -154 154 -57 17 -4321 16 -4374 -1z m3901 -626
-           l29 -29 0 -596 c0 -440 -3 -602 -12 -621 -15 -32 -56 -55 -99 -55 -29 0 -56
-           23 -249 215 -118 118 -220 215 -225 215 -6 0 -163 -153 -350 -340 l-340 -340
-           -144 144 -145 145 231 238 c128 131 266 272 308 313 42 41 90 92 107 113 l31
-           39 -222 222 c-219 220 -221 222 -221 265 0 34 6 49 29 72 l29 29 607 0 607 0
-           29 -29z m-2017 -2000 c76 -76 137 -143 135 -149 -2 -6 -148 -159 -324 -339
-           -176 -181 -329 -339 -339 -351 l-20 -23 222 -222 c239 -240 241 -244 210 -312
-           -25 -56 -16 -55 -663 -55 l-597 0 -29 29 -29 29 0 604 c0 556 2 605 18 624 23
-           29 54 44 93 44 30 0 56 -23 254 -220 l220 -220 350 350 c192 193 352 350 355
-           350 3 0 68 -62 144 -139z" />
-                    </g>
-                  </svg>
+                  <!-- <input type="color" id="select-color"> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" id="trash-icon" height="1.75rem" viewBox="0 96 960 960" width="1.75rem"><path fill="rgb(25,25,25)" d="M261 936q-24.75 0-42.375-17.625T201 876V306h-41v-60h188v-30h264v30h188v60h-41v570q0 24-18 42t-42 18H261Zm438-630H261v570h438V306ZM367 790h60V391h-60v399Zm166 0h60V391h-60v399ZM261 306v570-570Z"/></svg>
                 </div>
                 <canvas id="canvas"></canvas>
                 <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="28"
@@ -261,6 +244,7 @@
                             <div class="line-separator"></div>
                             <button id="delete-question">smazat otázku</button>
                             <button id="testbtn">testing</button>
+                            <button id="testbtn2">testing2</button>
               </div>
             </div>
           </div>
@@ -395,7 +379,7 @@
                 </div>
               </div>
               <div class="time-limit-wrap">
-                <h4 class="wrap-heading">Časový limit: </h4>
+                <h4 class="wrap-heading">Časový limit</h4>
                 <% if (test) { %>
                   <select name="time-limit" id="selectTimeLimit">
                     <option value="null" <% if (test.timeLimit === null) { %> selected <% } %>>Bez limitu</option>
@@ -559,9 +543,58 @@
             <script>
               window.addEventListener('DOMContentLoaded', (event) => {
                 console.log('DOM fully loaded and parsed');
+
                 let answerBtns = document.querySelectorAll('.btn').forEach(el => el.addEventListener('click', markAsChecked));
                 getMaps()
+                getTest();
 
+                async function getTest() {
+                  debugger;
+                  console.log('getTest')
+                  let testId = window.location.href.split('/').pop();
+                  const res = await fetch(`/tests/${testId}/results`, {
+                    method: 'GET', 
+                    headers: {'Content-Type': 'application/json'}
+                  })
+                  if (res) {
+                    let data = await res.json();
+
+                    let correctAnswersIndexes = getCorrectIndexes(data);
+                    let totalPoints = sumPoints(data);
+                    let marksBoundaries = data.marksBoundaries;
+                    console.log('JSONS: ', correctAnswersIndexes, totalPoints, marksBoundaries)
+                  }
+                }
+
+                function getMarksBoundaries(json) {
+                  const data = JSON.parse(json);
+                  return data.marksBoundaries;
+                }
+                function sumPoints(data) {
+                  let totalPoints = 0;
+                  data.test.questions.forEach((question) => {
+                    totalPoints += parseInt(question.points || 0);
+                  });
+                  return totalPoints;
+                }
+
+                function getCorrectIndexes(data) {
+                  const correctIndexes = [];
+                  const questions = data.test.questions;
+                  
+                  for (let i = 0; i < questions.length; i++) {
+                    const answers = questions[i].answers;
+                    
+                    for (let j = 0; j < answers.length; j++) {
+                      const answer = answers[j];
+                      
+                      if (answer.isCorrect) {
+                        correctIndexes.push(j);
+                      }
+                    }
+                  }                  
+                  return correctIndexes;
+                }
 
                 function markAsChecked(e) {
                   let parent = e.target.closest('.options');
@@ -592,39 +625,90 @@
                     console.log('res : ', res)
                   }
                 }
-                let timeLimitInMinutes = Number(document.querySelector('#countdown').getAttribute('data-timelimit'));
-                let tenMinutesLater = new Date(new Date().getTime() + timeLimitInMinutes * 60 * 1000).getTime();
-                console.log('timeLimitInMinutes ', timeLimitInMinutes)
-                if (isNaN(timeLimitInMinutes)) {
-                  document.querySelector('#countdown').style.opacity = 0;
-                  return;
-                } else {
-                  let x = setInterval(function() {
-                    let now = new Date().getTime();
-                    let distance = tenMinutesLater - now;
-                    
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    if (minutes < 10) {
-                      minutes = "0" + minutes;
-                    }
-                    if (seconds < 10) {
-                      seconds = "0" + seconds
-                    }
-                    document.getElementById("countdown").innerHTML =  minutes + ":" + seconds;
+
+                function startTime() {
+                  let timeLimitInMinutes = Number(document.querySelector('#countdown').getAttribute('data-timelimit'));
+                  let tenMinutesLater = new Date(new Date().getTime() + timeLimitInMinutes * 60 * 1000).getTime();
+                  console.log('timeLimitInMinutes ', timeLimitInMinutes)
+                  if (isNaN(timeLimitInMinutes)) {
+                    document.querySelector('#countdown').style.opacity = 0;
+                    return;
+                  } else {
+                    let x = setInterval(function() {
+                      let now = new Date().getTime();
+                      let distance = tenMinutesLater - now;
                       
-                    if (distance < 0) {
-                      clearInterval(x);
-                      document.getElementById("countdown").innerHTML = "EXPIRED";
-                    }
-                  }, 1000)
+                      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                      if (minutes < 10) {
+                        minutes = "0" + minutes;
+                      }
+                      if (seconds < 10) {
+                        seconds = "0" + seconds
+                      }
+                      document.getElementById("countdown").innerHTML =  minutes + ":" + seconds;
+                        
+                      if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("countdown").innerHTML = "EXPIRED";
+                      }
+                    }, 1000)
+                  }  
                 }
 
-              });
-             
+                             
+
+              async function evaluateResult() {
+                try {
+                  let testRef = "64020fc02c3dc1e88a50949a";
+                  let firstName = "Jon";
+                  let lastName = "Doe";
+                  let email = "email";
+                  let answers = [0,1,2,0,1,0,2,3]; // vyhodnotit pred ulozenim
+                  let points = 10; // secist pred ulozenim
+                  let mark = 1;
+                  const res = await fetch('/results/', {
+                    method: 'POST', 
+                    body: JSON.stringify( { tstRef, firstName, lastName, email, answers, points, mark } ),
+                    headers: {'Content-Type': 'application/json'}
+                  })
+                  if (res) {
+                    console.log('res : ', res)
+                    location.assign('/tests')
+                  }
+                }
+                catch (err) {
+                  console.log(err)
+                }
+              }
+
+              let startTestBtn = document.querySelector('#startTestBtn')
+              console.log('Yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+              startTestBtn.addEventListener('click', startTest);
+              function startTest() {
+                debugger;
+                document.querySelector('.overlay-wrapper').style.display = 'none';
+                document.querySelector('.wrapper').style.display = 'grid';
+              }
+            })
             </script>
 
+            <div class="overlay-wrapper">
+              <div class="title-wrap">
+                <h2>Test: <%=test.title%></h2>
+                <div>Čas na splnění: <%=test.timeLimit%> minut</div>
+              </div>
+              <div class="info">
+                <label for="firstName">Jméno</label>
+                <input type="text" id="firstName" placeholder="" required>
+                <label for="lastName">Příjmení</label>
+                <input type="text" id="lastName" placeholder="" required>
+                <label for="email">Emailová adresa</label>
+                <input type="text" id="email" placeholder="" required>
+                <button class="btn" id="startTestBtn">Začít test</button>
+              </div>              
+            </div>
             <div class="wrapper">
               <div class="title-wrap">
                 <h2>Test: <%=test.title%></h2>
@@ -658,6 +742,9 @@
         <% for (let i = 0; i < test.test.questions.length; i++) { %>
           var canvas<%=i%> = new fabric.Canvas('canvas<%= i %>');
                         fabric.Image.fromURL('<%= test.test.maps[0].src %>', function (img) {
+                          console.log('width of image: ', img.getScaledWidth(), img.getScaledHeight())
+
+
                           img.scaleToWidth(804, true);
                           canvas<%=i%>.setDimensions({ width: 800.78, height: img.getScaledHeight() })
                           canvas<%=i%>.add(img);
@@ -680,9 +767,53 @@
 
 
                   </script>
+                  <button class="btn btn--icon--before" id="evaluateTest">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M400 738 247 585l42-42 111 111 271-271 42 42-313 313Z"/></svg>
+                    vyhodnotit test
+                  </button>
             </div>
 
             <style>
+              .overlay-wrapper {
+                padding:1rem;
+                background:white;
+                max-width: 25rem;
+                box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+                border-radius: 0.5rem;
+              }
+              .overlay-wrapper label {
+                color: #787878;
+                font-weight: 500;
+              }
+              .overlay-wrapper .title-wrap div {
+                font-weight: 600;
+                color: brown;
+                padding-bottom: 1rem;
+                padding-top: 1rem;
+                border-bottom: 2px solid rgb(225,222,225);
+              }
+              .overlay-wrapper button {
+                background: rgb(116 211 233);
+                margin-top: 1.5rem;
+              }
+
+              .overlay-wrapper input {
+                display: block;
+                width: 100%;
+                background-color: rgb(235, 235, 235);
+                border: none;
+                outline: none;
+                height: 3rem;
+                font-size: 1.25rem;
+                padding: 0.5rem 1rem;
+                border-radius: 0.25rem;
+                margin-bottom: 0.75rem;
+              }
+              .overlay-wrapper .info {
+                padding: 1rem 0 0 0;
+                display:flex;
+                flex-direction: column;
+              }
               body {
                 background: rgb(236, 236, 236);
               }
@@ -708,24 +839,28 @@
                 max-width: 70rem;
                 padding: 0 1rem 1rem 1rem;
                 background: rgb(255 255 255);
-               
-                display: grid;
+              
+                display: none;
                 grid-template-rows: auto auto 1fr;
               }
 
               .canvas-wrap {
-                margin-top: 3rem;
+                margin: 1.5rem auto 0 auto;
                 display: flex;
                 justify-content: center;
                 max-width: 100%;
-                overflow-x: scroll;
+                overflow-x: auto;
               }
 
               
               .upper-canvas, .lower-canvas, .canvas-container {
                 pointer-events: none;
+                border-radius: 0.5rem;
               }
-
+              .canvas-container {
+                box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+                margin: 0.5rem 0 1rem;
+              }
               .options {
                 display: grid;
                 gap: 0.5rem;
@@ -754,11 +889,17 @@
                 word-break: break-all;
               }
 
+
               .btn:hover {
                 background: #51cdd38f;
               }
               .btn--checked {
                 background: #51cdd38f;
+              }
+              .wrapper #evaluateTest {
+                margin: 1rem auto 1rem auto;
+                max-width: 30rem;
+                padding: 0 2rem 0 1rem;
               }
 
               canvas {
@@ -802,7 +943,7 @@
 
               .question-content-active {
                 display: block;
-                overflow-x: scroll;
+                overflow-x: hidden;
               }
 
               .question:hover {

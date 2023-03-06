@@ -84,6 +84,23 @@ module.exports.getTestById = async (req, res) => {
   }
 }
 
+module.exports.getTestForResult = async (req, res) => {
+  let testId = req.params.testId;
+  try {
+    const test = await Test.findById(testId)
+     /*  .select('marksBoundaries test.questions.points'); */
+     .select(' test.questions.answers test.questions.points marksBoundaries');
+    if (test) {
+      console.log('foundTest: ', testId)
+      console.log(test)
+      res.json(test);
+    }
+  }
+  catch(err) {
+    console.log(err)
+  }
+}
+
 module.exports.getTestByIdAndEdit = async (req, res) => {
   console.log("getTestByIdAndEdit");
   let testId = req.params.testId;

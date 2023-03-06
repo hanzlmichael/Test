@@ -18,7 +18,43 @@ canvas.setDimensions({width: "100%", height:"400px"}, {cssOnly:true})
 
 /* test */
 import { getTestById } from './components/questions.js'
-document.querySelector('#testbtn').addEventListener('click', getTestById)
+document.querySelector('#testbtn').addEventListener('click', testFun)
+document.querySelector('#testbtn2').addEventListener('click', testFun2)
+
+
+var originalSize;
+
+var canvasSize = document.querySelector('.upper-canvas')
+
+function testFun() {
+  
+  console.log('TESTING: ',canvasSize.clientWidth, canvasSize.clientHeight, canvasSize.offsetWidth, canvasSize.offsetHeight, 
+  canvasSize.getBoundingClientRect().width, canvasSize.getBoundingClientRect().height)
+
+  originalSize = [canvasSize.getBoundingClientRect().width, canvasSize.getBoundingClientRect().height]
+
+
+}
+canvas.on('mouse:down', function(e) {
+  console.log(canvas.getPointer(e, true));
+});
+
+
+function testFun2() {
+  let actualSize = [canvasSize.getBoundingClientRect().width, canvasSize.getBoundingClientRect().height];
+  console.log(actualSize[0])
+  let scaleRatio = actualSize[0] / originalSize[0]
+
+  canvas.forEachObject(function(obj) {
+    if (!(obj instanceof fabric.Image)) {
+      obj.scale(scaleRatio);
+      obj.left = obj.left * scaleRatio;
+      obj.top = obj.top * scaleRatio;
+    }
+  });  
+  canvas.renderAll();
+}
+
 
 if (testBSON(window.location.href || testNewPath())) {
   debugger;
@@ -71,6 +107,24 @@ function startDraw(e) {
   if (typeShape == 'polygon') {
     console.log('polygon')
     startDrawPolygon()
+  }
+}
+
+document.querySelector('#trash-icon').addEventListener('click', deleteSelectedObjects);
+
+function deleteSelectedObjects() {
+  var activeObjects = canvas.getActiveObjects(); // get array of selected objects
+  if (activeObjects.length) {
+    activeObjects.forEach(function(object) {
+      canvas.remove(object); // remove each selected object from the canvas
+    });
+    canvas.discardActiveObject().renderAll(); // clear selection and redraw canvas
+  } else {
+    canvas.forEachObject(function(object) {
+      if (!(object instanceof fabric.Image)) {
+        canvas.remove(object);
+      }
+    });
   }
 }
 
@@ -172,8 +226,7 @@ export function resizeMapToCanvas(data) {
     if (lastString == 'new') page.style.display = 'block'
   } else {
     width = wrap.getBoundingClientRect().width;
-  }
- 
+  } 
 
 
   canvas.clear()
@@ -195,11 +248,11 @@ export function resizeMapToCanvas(data) {
 window.onresize = resizeWrap;
 
 function resizeWrap() {
-  let cc = document.querySelector('#canvas');
+  /* let cc = document.querySelector('#canvas');
   let width = Number(cc.getBoundingClientRect().height) + 16;
 
   console.log(width);
-  wrap.style.height =  `${width}px`;
+  wrap.style.height =  `${width}px`; */
 }
 
 function onlyOne(checkbox) {

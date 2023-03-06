@@ -8,7 +8,7 @@ require('dotenv').config()
 const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express()
-const PORT = process.env.PORT || 3210;
+const PORT =  process.env.PORT || 3210;
 
 // view engine 
 app.set('view engine', 'ejs')

@@ -13,6 +13,7 @@ export function initQuestionsBar() {
   //document.querySelector('#testbtn').addEventListener('click', saveQuestion);
 }
 
+
 let wrapQuestionsElem = document.querySelector('.wrap-questions');
 console.log('wrap q : ', wrapQuestionsElem.children.length)
 let actualQuestionIndex = -1;
